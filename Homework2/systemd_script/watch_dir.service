@@ -1,0 +1,9 @@
+[Unit]
+Description=Watch directory "watch" for new files and process them
+
+
+[Service]
+ExecStart=/usr/sbin/watch.sh
+
+[Install]
+WantedBy=multi-user.target
