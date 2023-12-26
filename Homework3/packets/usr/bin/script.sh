@@ -1,13 +1,22 @@
 #!/bin/bash
 
-# Check distribution
-if [[ $(lsb_release -is) != "Ubuntu" ]]; then
-  echo "This script is only compatible with Ubuntu distributions." >&2
-  exit 1
+if [ -f /etc/os-release ]; then
+    source /etc/os-release
+    distribution=$ID
+else
+    echo "Error: Unable to determine distribution."
+    exit 1
 fi
 
-# Get CPU usage for the last hour
-cpu_usage=$(sar -u -r -f /var/log/sysstat/sa1 | tail -n 1 | awk '{print $8}')
+# Check if it's Ubuntu
+if [ "$distribution" != "ubuntu" ]; then
+    echo "Error: This script is intended for Ubuntu distribution only."
+    exit 1
+fi
+echo "Distribution is ubuntu"
+
+# Get CPU usage for the last hour using mpstat
+cpu_usage=$(mpstat 1 3600 | awk '$12 ~ /[0-9.]+/ { print 100 - $12 }')
 
 # Output to log file
-echo "$(date) - CPU usage: $cpu_usage" >> cpu-usage.log
+echo "$(date) - CPU usage: $cpu_usage%" >> cpu-usage.log
