@@ -1,4 +1,5 @@
 #!/bin/bash
+
 if [ -f /etc/os-release ]; then
     source /etc/os-release
     distribution=$ID
@@ -12,13 +13,10 @@ if [ "$distribution" != "ubuntu" ]; then
     echo "Error: This script is intended for Ubuntu distribution only."
     exit 1
 fi
-echo "Distribution  is ubuntu"
+echo "Distribution is ubuntu"
 
-# Get CPU usage for the last hour
-cpu_usage=$(sar -u 60 60 2>&1 | awk 'END{print 100-$NF}')
+# Get CPU usage for the last hour using mpstat
+cpu_usage=$(mpstat 1 3600 | awk '$12 ~ /[0-9.]+/ { print 100 - $12 }')
 
-# Output CPU usage to a file
-log_file="/path/to/cpu-usage.log"
-echo "$(date '+%Y-%m-%d %H:%M:%S') CPU Usage: $cpu_usage%" >> "$log_file"
-
-echo "CPU usage logged to $log_file"
+# Output to log file
+echo "$(date) - CPU usage: $cpu_usage%" >> cpu-usage.log

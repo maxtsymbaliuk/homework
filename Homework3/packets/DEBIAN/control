@@ -1,0 +1,5 @@
+Package: cpu-usage-script
+Version: 1.0
+Architecture: all
+Maintainer: Max Tsymbaliuk maxtsymbaliuk02@gmail.com
+Description: Script to monitor CPU usage
