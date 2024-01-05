@@ -1,0 +1,34 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "vm-prometheus" do |prometheus_config|
+    prometheus_config.vm.box = "bento/ubuntu-22.04"
+    prometheus_config.vm.network "public_network"
+    prometheus_config.vm.synced_folder "./data", "/vagrant_file"
+    prometheus_config.vm.provision "shell", inline: <<-SHELL
+      apt-get update
+      wget https://github.com/prometheus/prometheus/releases/download/v2.37.6/prometheus-2.37.6.linux-amd64.tar.gz
+      tar xvfz prometheus-2.37.6.linux-amd64.tar.gz
+      rm prometheus-2.37.6.linux-amd64.tar.gz
+      sudo mkdir /etc/prometheus /var/lib/prometheus
+      cd prometheus-2.37.6.linux-amd64
+      sudo mv prometheus promtool /usr/local/bin/
+      sudo mv prometheus.yml /etc/prometheus/prometheus.yml
+      sudo mv consoles/ console_libraries/ /etc/prometheus/
+      sudo useradd -rs /bin/false prometheus
+      sudo chown -R prometheus: /etc/prometheus /var/lib/prometheus
+      sudo vim /etc/systemd/system/prometheus.service
+    SHELL
+  end
+
+  config.vm.define "vm-node_exporter" do |node_exporter_config|
+    node_exporter_config.vm.box = "bento/ubuntu-22.04"
+    node_exporter_config.vm.network "public_network"
+    node_exporter_config.vm.synced_folder "./data", "/vagrant_file"
+    node_exporter_config.vm.provision "shell", inline: <<-SHELL
+      apt-get update
+      wget https://github.com/prometheus/node_exporter/releases/download/v1.5.0/node_exporter-1.5.0.linux-amd64.tar.gz
+      tar xvfz node_exporter-1.5.0.linux-amd64.tar.gz
+      sudo mv node_exporter-1.5.0.linux-amd64/node_exporter /usr/local/bin
+      rm -r node_exporter-1.5.0.linux-amd64.tar.gz
+    SHELL
+  end
+end
