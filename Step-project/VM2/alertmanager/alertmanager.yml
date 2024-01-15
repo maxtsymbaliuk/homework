@@ -1,0 +1,27 @@
+global:
+  resolve_timeout: 1m
+
+route:
+  group_by: ['alertname']
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 30s
+  receiver: 'gmail-notifications'
+
+receivers:
+- name: 'gmail-notifications'
+  email_configs:
+  - to: 'maxtsymbaliuk02@gmail.com'
+    from: 'maxtsymbaliuk02@gmail.com'
+    smarthost: smtp.gmail.com:587
+    auth_username: 'maxtsymbaliuk02@gmail.com'
+    auth_identity: 'maxtsymbaliuk02@gmail.com'
+    auth_password: 'apmn eupa tfqv lnuq'
+    send_resolved: true
+
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'dev', 'instance' ]
