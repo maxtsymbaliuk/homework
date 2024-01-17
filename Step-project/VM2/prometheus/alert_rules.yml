@@ -1,11 +1,11 @@
 groups:
-- name: alert.rules
+- name: example
   rules:
-  - alert: TestAlert
-    expr: cpu_usage > 10
-    for: 10s
+  - alert: HighCpuUsage
+    expr: 100 - (avg by(instance)(irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 10
+    for: 1m
     labels:
-      severity: "critical"
+      severity: critical
     annotations:
-      summary: "Hello my firts alert"
-      description: "i have no idea"
+      description: "CPU usage is above 10%"
+      summary: "High CPU Usage"
