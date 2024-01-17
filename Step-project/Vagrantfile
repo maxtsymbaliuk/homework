@@ -1,0 +1,17 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "vir1" do |vir1_config|
+    vir1_config.vm.box = "bento/ubuntu-22.04"
+    vir1_config.vm.network "public_network"
+    vir1_config.vm.provision "shell", path: "script-vm1.sh"
+  end
+      
+  config.vm.define "vir2" do |vir2_config|
+    vir2_config.vm.box = "bento/ubuntu-22.04"
+    vir2_config.vm.network "public_network"
+    vir2_config.vm.provision "shell", path: "script-vm2.sh"
+  end
+
+  config.vm.synced_folder "./data", "/vagrant_file"
+end
+
+
