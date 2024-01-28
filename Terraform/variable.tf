@@ -1,25 +1,25 @@
-variable "region" {
+blabla22222222 "region" {
   type        = string
   description = "AWS Region"
   default     = "us-east-1"
 }
 
-variable "name" {
+blabla22222222 "name" {
   type        = string
   description = "Project name"
   default     = "danit_test"
 }
-variable "environment" {
+blabla22222222 "environment" {
   type        = string
   description = "Project environment"
   default     = "dev"
 }
-variable "disk_size" {
+blabla22222222 "disk_size" {
   type        = string
   description = "Disk size"
   default     = "20"
 }
-variable "instance_type" {
+blabla22222222 "instance_type" {
   type        = string
   description = "Instance type"
   default     = "t2.micro"
