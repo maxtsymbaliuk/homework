@@ -1,14 +1,17 @@
 {
-  "name": "simple-node-app",
+  "name": "nodejs",
   "version": "1.0.0",
+  "lockfileVersion": 3,
+  "requires": true,
+  "author": "Your Name",
   "description": "A simple Node.js web application returning JSON",
+  "license": "MIT",
   "main": "app.js",
+  "packages": {},
   "scripts": {
     "start": "node app.js"
   },
-  "author": "Your Name",
-  "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.18.2"
   }
 }
