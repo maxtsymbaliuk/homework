@@ -31,7 +31,29 @@ $ exit
 #4.	Run the nodejs-app container interactively and control the port it is using with ENV variables, change it to 5000, as a plus, use port 8000 to 
 #access app in your browser
 
+
+docker run --rm -it -p 8000:5000 nodejs-app:20 sh
+$ node app.js
+Server is running on port 5000
+----HTTP://IP-ADD:8000 => Hello world message :)
  
-5.	Adjust Dockerfile to be able to control the used port during image build, the port defined on build should be used on run without additional configration 
-6.	Adjust Dockerfile to add labels to image, run it and use docker inspect to find them in container metadata 
-7.	Add creation of app non-root user and configure to use that user for the app
+#5.	Adjust Dockerfile to be able to control the used port during image build, the port defined on build should be used on run without additional configration 
+
+
+ARG PORT
+ENV PORT=${PORT}
+EXPOSE ${PORT}
+
+
+#6.Adjust Dockerfile to add labels to image, run it and use docker inspect to find them in container metadata
+
+docker inspect --format='{{index .Config.Labels "version"}}' 41f1b8dde437
+20.11.0
+
+ 
+#7.	Add creation of app non-root user and configure to use that user for the app
+
+maksym@makstymtsymbaliuk:~/Homework/Homework-Den/Homework1/nodejs$ docker run --rm -it nodejs-app:20 sh
+$ whoami
+node
+$ exit
