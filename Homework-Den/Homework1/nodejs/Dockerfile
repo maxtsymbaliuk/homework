@@ -34,7 +34,3 @@ USER node
 # Command to run the Node.js application
 CMD ["node", "app.js"]
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD curl -f http://localhost:8080/healthz || exit 1
-
-ENTRYPOINT ["./start.sh"]

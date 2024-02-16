@@ -12,8 +12,8 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install Node.js dependencies
-RUN npm install
-
+RUN npm install && \
+    npm install uuid
 # Copy the rest of the application code
 COPY . .
 
@@ -37,3 +37,5 @@ CMD ["sh", "-c", "start.sh"]
 # Health check
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
   CMD curl --silent --fail http://localhost:3000/healthz || exit 1
+
+#ENTRYPOINT ["sh", "start.sh"]
