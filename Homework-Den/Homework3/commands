@@ -1,0 +1,83 @@
+Take an example static web site, create compose file with nginx container serving this content via volume mount, expose it at port 8080
+
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ./static-content:/usr/share/nginx/html:ro
+    networks:
+      - nginx_network
+
+networks:
+  nginx_network:
+    driver: bridge
+
+bash: docker-compose up -d
+
+
+
+Create compose file to run registry in persistent mode, push images to it and confirm that they stay after service down/up
+
+version: '3.8'
+
+services:
+  registry:
+    image: registry:latest
+    container_name: registry
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./registry_data:/var/lib/registry
+
+volumes:
+  registry_data:
+    driver: local
+
+docker-compose up -d
+
+docker pull alpine
+docker tag alpine localhost:5000/myrepo/alpine
+docker push localhost:5000/myrepo/alpine
+
+docker-compose down
+
+
+Use any compose file to start service, scale them up/down from 1 instance to 3 and back
+
+version: '3.8'
+
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+
+docker-compose up -d --scale web=3
+docker-compose up -d --scale web=1
+
+Create compose file which runs two services using same volume to share files between them, one service should create file and second one should be able to read it
+
+version: '3.8'
+
+services:
+  writer:
+    image: busybox
+    command: sh -c "echo 'Hello, world!' > /data/message.txt"
+    volumes:
+      - shared_data:/data
+
+  reader:
+    image: busybox
+    command: cat /data/message.txt
+    volumes:
+      - shared_data:/data
+
+volumes:
+  shared_data:
+    driver: local
+
+.

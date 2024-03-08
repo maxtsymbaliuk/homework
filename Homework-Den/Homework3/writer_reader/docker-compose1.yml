@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  writer:
+    image: busybox
+    command: sh -c "echo 'Hello, world. It`s my message' > /data/message.txt"
+    volumes:
+      - ./shared_data:/data
+
+  reader:
+    image: busybox
+    command: cat /data/message.txt
+    volumes:
+      - ./shared_data:/data
+
+volumes:
+  shared_data:
+    driver: local
+
