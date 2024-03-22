@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-//phpinfo();
+phpinfo();
 //echo "hello world";
 $connection = mysqli_connect('mysql','root','root');
 
