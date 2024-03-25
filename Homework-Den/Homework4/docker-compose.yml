@@ -18,7 +18,7 @@ services:
         -url http://jenkins:8080
         -secret 0570a7a8cce90c22441190accfe9637647b6d16f269d63ccb2fbab70f6e80a33
         -name "slave-01"
-        -workDir "/var/jenkins_home"
+       -workDir "/var/jenkins_home"
 
 volumes:
   jenkins-home:
