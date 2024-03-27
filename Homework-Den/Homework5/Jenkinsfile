@@ -1,0 +1,66 @@
+pipeline {
+    agent any
+    
+    environment {
+        GIT_SSH_COMMAND = "ssh -o StrictHostKeyChecking=no"
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                echo "Download code from git repo by ssh"
+                git branch: 'main',
+                    credentialsId: 'git-access',
+                    url: "git@github.com:maxtsymbaliuk/homework.git"
+            }
+        }
+        
+         stage('Build') {
+            steps {
+                script{
+                    def folderPath = "pipeline"
+                    def fileName = "${BUILD_NUMBER}.txt"
+                    def currentDate = new Date().format("yyyy-MM-dd HH:mm:ss")
+                    
+                    sh "mkdir -p ${folderPath}"
+                    writeFile file: "${folderPath}/${fileName}", text: "Build ${BUILD_NUMBER} created at ${currentDate}"
+                }
+            }
+         }
+        
+         stage('Publish') {
+            steps {
+                withCredentials([sshUserPrivateKey(credentialsId: 'git-access', keyFileVariable : 'keyfile')]) {
+                    script {
+                        dir('pipeline') {
+                            
+                            def userEmail = "max@gmail.com"
+                            def userName = "max"
+                            
+                            sh """
+                            export GIT_SSH_COMMAND="ssh -i ${keyfile} -oStrictHostKeyChecking=no"
+                            git config --global user.email ${userEmail}
+                            git config --global user.name ${userName}
+                            git checkout main
+                            git add .
+                            git commit -m 'add buildnumber.txt to git'
+                            git tag v0.2.${BUILD_NUMBER}.txt
+                            git push origin --tags
+                            """
+                        }
+                    }    
+                }
+            }
+         }
+         stage("Post Build") {
+             steps {
+                 echo "Build artifacts"
+                 dir("pipeline"){
+                     sh """
+                     archiveArtifacts 'pipeline/*.txt'
+                     """
+                 }
+             }
+         }
+    }
+}
