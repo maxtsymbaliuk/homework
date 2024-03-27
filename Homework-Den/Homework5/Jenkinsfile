@@ -57,7 +57,7 @@ pipeline {
                  echo "Build artifacts"
                  dir("pipeline"){
                      sh """
-                     archiveArtifacts 'pipeline/*.txt'
+                     archiveArtifacts artifacts: '*.txt'
                      """
                  }
              }
