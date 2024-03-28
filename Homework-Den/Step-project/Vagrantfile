@@ -1,0 +1,26 @@
+Vagrant.configure("2") do |config|
+
+  # Jenkins server VM
+  config.vm.define "jenkins-master" do |master|
+    master.vm.box = "bento/ubuntu-22.04"
+    master.vm.network "public_network"
+    master.vm.hostname = "jenkins-master"
+    master.vm.provider "virtualbox" do |vb|
+      vb.memory = "2048"
+    end
+
+    master.vm.provision "shell", path: "install-docker.sh"
+  end
+
+  # Jenkins worker VM
+  config.vm.define "jenkins-worker" do |worker|
+    worker.vm.box = "bento/ubuntu-22.04"
+    worker.vm.network "public_network"
+    worker.vm.hostname = "jenkins-worker"
+    worker.vm.provider "virtualbox" do |vb|
+      vb.memory = "2048"
+    end
+
+    worker.vm.provision "shell", path: "install-jenkins.sh"
+  end
+end
