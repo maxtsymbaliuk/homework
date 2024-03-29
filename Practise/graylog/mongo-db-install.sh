@@ -6,6 +6,8 @@ echo "deb [ arch=amd64,arm64 signed=/etc/apt/trusted.gpg.d/keyrings/mongodb-serv
 sudo apt update
 sudo apt install mongodb-org -y
 mongod --version
-systemctl start mongod
+
+
 systemctl enable mongod
+systemctl start mongod
 systemctl status mongod
