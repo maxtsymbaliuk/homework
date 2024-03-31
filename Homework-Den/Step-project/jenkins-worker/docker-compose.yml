@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  jenkins-worker:
+    container_name: jenkins-worker
+    image: jenkins/jnlp-slave:lts
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - jenkins-net
+
+networks:
+  jenkins-net:
+    external: true
+
