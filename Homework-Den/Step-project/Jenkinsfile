@@ -1,0 +1,63 @@
+pipeline {
+    agent {
+        label 'worker'
+    }
+    environment {
+        GIT_SSH_COMMAND = "ssh -o StrictHostKeyChecking=no"
+        WORK_DIR = "lesson-20240215/react/"
+        IMAGE_NAME = 'maxtsymbaliuk/my-image'
+        DOCKER_TAG = "${BUILD_ID}"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo "Download code from git repo by ssh"
+                git branch: 'main',
+                    credentialsId: 'ssh-gitlab',
+                    url: "git@gitlab.com:maxtsymbaliuk1/stepproject.git"
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                sh """
+                cd ${WORK_DIR}
+                npm install
+                npm run build
+                """
+            }
+        }
+        stage('Test') {
+            steps {
+                sh """
+                cd ${WORK_DIR}
+                npm test
+                """
+            }
+        }
+        stage('Build docker image') {
+            steps {
+                dir ("${WORK_DIR}") {
+                    script{
+                         sh """
+                         echo ${env.IMAGE_NAME}:${env.DOCKER_TAG}
+                         docker build -t ${env.IMAGE_NAME}:${env.DOCKER_TAG} .
+                         """
+                    }
+                }
+            }
+        }
+        stage('Push to Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh """
+                    echo "===PUSH IS SUCCESSFUL==="
+                    docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+                    docker push ${IMAGE_NAME}:${DOCKER_TAG}
+                    """
+                }
+            }
+        }
+    }
+}
+
