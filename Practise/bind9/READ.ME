@@ -1,0 +1,12 @@
+To set up a dns server make a next steps:
+===
+sudo -i
+cd /etc
+mv resolf.conf resolv.conf.old
+echo "nameserver [your dns server ip], for example 127.0.0.1 or another" > resolf.conf
+chattr +i resolv.conf - make a file to unchangeble
+rm resolv.conf - check chattr
+===
+
+a service:
+sudo systemctl status systemd-resolved.service - stop and disable, to work with own dns server
