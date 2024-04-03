@@ -1,0 +1,56 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "HAProxy1" do |haproxy1|
+    haproxy1.vm.box = "bento/ubuntu-22.04"
+    haproxy1.vm.network "private_network", type: "dhcp"
+    haproxy1.vm.hostname = "HAProxyvm1"
+    haproxy1.vm.provider "virtualbox" do |vb|
+      vb.memory = "2048"
+    end
+    haproxy1.vm.provision "shell", path: "C:/Users/Maksym/vagrant/scripts/haproxy.sh"
+  end
+
+
+  config.vm.define "HAProxy2" do |haproxy2|
+    haproxy2.vm.box = "bento/ubuntu-22.04"
+    haproxy2.vm.network "private_network", type: "dhcp"
+    haproxy2.vm.hostname = "HAProxyvm2"
+    haproxy2.vm.provider "virtualbox" do |vb|
+      vb.memory = "2048"
+    end
+    haproxy2.vm.provision "shell", path: "C:/Users/Maksym/vagrant/scripts/haproxy.sh"
+  end
+
+  config.vm.define "Apache1" do |apache1|
+    apache1.vm.box = "bento/ubuntu-22.04"
+    apache1.vm.network "private_network", type: "dhcp"
+    apache1.vm.hostname = "Apache1"
+    apache1.vm.provider "virtualbox" do |vb|
+      vb.memory = "1024"
+    end
+
+    apache1.vm.provision "shell", path: "C:/Users/Maksym/vagrant/scripts/apache1.sh"
+  end
+
+  config.vm.define "Apache2" do |apache2|
+    apache2.vm.box = "bento/ubuntu-22.04"
+    apache2.vm.network "private_network", type: "dhcp"
+    apache2.vm.hostname = "Apache2"
+    apache2.vm.provider "virtualbox" do |vb|
+      vb.memory = "1024"
+    end
+
+    apache2.vm.provision "shell", path: "C:/Users/Maksym/vagrant/scripts/apache2.sh"
+  end
+
+# config.vm.define "BIND" do |bind|
+#    bind.vm.box = "bento/ubuntu-22.04"
+#    bind.vm.network "private_network", type: "dhcp"
+#    bind.vm.hostname = "Bind"
+#    bind.vm.provider "virtualbox" do |vb|
+#      vb.memory = "1024"
+#    end
+#  end
+end
+
+
+
