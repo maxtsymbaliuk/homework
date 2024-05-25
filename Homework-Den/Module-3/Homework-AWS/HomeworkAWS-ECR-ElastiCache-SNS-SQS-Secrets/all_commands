@@ -3,7 +3,7 @@ Elastic cache:
 Creating a VPC maxtsymbaliuk-vpc
 aws ec2 create-vpc \
 --cidr-block 10.0.0.0/16 \
---tag-specifications 'ResourceType=vpc,Tags=[{Key=Name,Value=yourhostel-vpc}]'
+--tag-specifications 'ResourceType=vpc,Tags=[{Key=Name,Value=maxtsymbaliuk-vpc}]'
 
 
 Creating a subnet maxtsymbaliuk-subnet
@@ -21,6 +21,7 @@ aws ec2 create-internet-gateway \
 aws ec2 attach-internet-gateway \
 --vpc-id vpc-0b6df671cd3d836af \
 --internet-gateway-id igw-0425123c9cb16e9e2
+
 Creating a routing table for Internet access
 aws ec2 create-route-table \
 --vpc-id vpc-0b6df671cd3d836af \
@@ -60,54 +61,54 @@ aws ec2 authorize-security-group-ingress \
 
 Create an IAM policy from elasticache-policy.json
 aws iam create-policy \
---policy-name yourhostel-elasticache-policy \
+--policy-name maxtsymbaliuk-elasticache-policy \
 --policy-document file://elasticache-policy.json
 Create an IAM role from trust-policy.json
 aws iam create-role \
---role-name yourhostel-elasticache-role \
+--role-name maxtsymbaliuk-elasticache-role \
 --assume-role-policy-document file://trust-policy.json
 Attaching a Policy to a Role
 aws iam attach-role-policy \
---role-name yourhostel-elasticache-role \
---policy-arn arn:aws:iam::590184137042:policy/yourhostel-elasticache-policy
+--role-name maxtsymbaliuk-elasticache-role \
+--policy-arn arn:aws:iam::590184137042:policy/maxtsymbaliuk-elasticache-policy
 create IAM Instance Profile
 aws iam create-instance-profile \
---instance-profile-name yourhostel-elasticache-profile
+--instance-profile-name maxtsymbaliuk-elasticache-profile
 Attaching a Role to an Instance Profile
 aws iam add-role-to-instance-profile \
---instance-profile-name yourhostel-elasticache-profile \
---role-name yourhostel-elasticache-role 
+--instance-profile-name maxtsymbaliuk-elasticache-profile \
+--role-name maxtsymbaliuk-elasticache-role 
 Creating a DB Subnet Group for ElastiCache:
 aws elasticache create-cache-subnet-group \
-    --cache-subnet-group-name yourhostel-cache-subnet-group \
-    --cache-subnet-group-description "Subnet group for yourhostel cache cluster" \
+    --cache-subnet-group-name maxtsymbaliuk-cache-subnet-group \
+    --cache-subnet-group-description "Subnet group for maxtsymbaliuk cache cluster" \
     --subnet-ids "subnet-024c8bc155fcd90ef"
 Creating a Redis Cluster
 aws elasticache create-cache-cluster \
-    --cache-cluster-id yourhostel-cache-cluster \
+    --cache-cluster-id maxtsymbaliuk-cache-cluster \
     --engine redis \
     --cache-node-type cache.t3.micro \
     --num-cache-nodes 1 \
     --region eu-north-1 \
-    --cache-subnet-group-name yourhostel-cache-subnet-group
+    --cache-subnet-group-name maxtsymbaliuk-cache-subnet-group
 Сreating an EC2 instance
 aws ec2 run-instances \
 --image-id ami-05fd03138da450caf \
 --count 1 \
 --instance-type t3.micro \
---key-name YourHostelKey \
+--key-name maxtsymbaliukKey \
 --security-group-ids sg-06ba86361618a9cc4 \
 --subnet-id subnet-024c8bc155fcd90ef \
 --associate-public-ip-address \
---tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=yourhostel-ElastiCache}]'
+--tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=maxtsymbaliuk-ElastiCache}]'
 
 # Associating an Instance Profile with an EC2 instance
 aws ec2 associate-iam-instance-profile \
 --instance-id i-0666a645e77cdacfc \
---iam-instance-profile Name=yourhostel-elasticache-profile
+--iam-instance-profile Name=maxtsymbaliuk-elasticache-profile
 
 # Connect to the instance
-ssh -i ~/.ssh/YourHostelKey.pem -p 22 ec2-user@13.51.107.218
+ssh -i ~/.ssh/maxtsymbaliukKey.pem -p 22 ec2-user@13.51.107.218
 EC (4).jpg EC (5).jpg
 
 Installing Redis CLI on an EC2 instance
@@ -117,8 +118,8 @@ sudo yum update
 sudo amazon-linux-extras install redis6 -y
 Connecting to ElastiCache Redis
 aws elasticache describe-cache-clusters \
---cache-cluster-id yourhostel-cache-cluster \
+--cache-cluster-id maxtsymbaliuk-cache-cluster \
 --show-cache-node-info \
 --region eu-north-1
 
-redis-cli -h yourhostel-cache-cluster.ac1vf1.0001.eun1.cache.amazonaws.com -p 6379
+redis-cli -h maxtsymbaliuk-cache-cluster.ac1vf1.0001.eun1.cache.amazonaws.com -p 6379
