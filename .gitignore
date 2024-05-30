@@ -4,3 +4,10 @@ regisry/
 volume/
 mysql/
 .var
+.terraform/
+
+.terraform.lock.hcl
+
+terraform.tfstate
+terraform.tfstate.*
+
