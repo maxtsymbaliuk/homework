@@ -16,9 +16,10 @@ data "aws_ami" "al2" {
 resource "aws_instance" "app_server" {
 
   ami           = data.aws_ami.al2.id
-  instance_type = "t2.micro"
 
-  key_name      = "MyKey"
+  instance_type = var.instance_type
+
+  key_name      = var.key_name
 
   subnet_id     = aws_subnet.public.id
 
@@ -26,8 +27,12 @@ resource "aws_instance" "app_server" {
 
   vpc_security_group_ids = [ aws_security_group.ec2.id ]
 
-  tags = {
-    Name = "maxtsymbaliuk" 
-  }
+  tags = local.tags 
+  
+  user_data = <<EOT
+#!/bin/bash
+yum install nano docker -y
+EOT
+ 
 }
 

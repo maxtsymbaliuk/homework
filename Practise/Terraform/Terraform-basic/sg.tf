@@ -24,8 +24,6 @@ resource "aws_security_group" "ec2" {
     cidr_blocks      = ["0.0.0.0/0"]
   }
 
-  tags = {
-    Name = "maxtsymbaliuk-sg"
-  }
+  tags = local.tags
 }
 

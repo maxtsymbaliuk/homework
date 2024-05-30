@@ -2,9 +2,7 @@ resource "aws_vpc" "main" {
   cidr_block       = "10.0.0.0/16"
   instance_tenancy = "default"
 
-  tags = {
-    Name = "maxtsymabliuk-vpc"
-  }
+  tags = local.tags
 }
 
 resource "aws_subnet" "public" {
@@ -13,17 +11,13 @@ resource "aws_subnet" "public" {
   cidr_block = "10.0.0.0/24"
 
   
-  tags = {
-    Name = "maxtsymbaliuk-public-subnet"
-  }
+  tags = local.tags
 }
 
 resource "aws_internet_gateway" "gw" {
   vpc_id     = aws_vpc.main.id
 
-  tags = {
-    Name = "maxtsymbaliuk-gw"
-  }
+  tags = local.tags
 }
 
 
@@ -35,8 +29,12 @@ resource "aws_route_table" "public" {
     gateway_id = aws_internet_gateway.gw.id
   }
 
-  tags = {
-    Name = "maxtsymbaliuk-rt"
-  }
+  tags = local.tags
+}
+
+resource "aws_route_table_association" "public" {
+
+  subnet_id      = aws_subnet.public.id
+  route_table_id = aws_route_table.public.id
 }
 
