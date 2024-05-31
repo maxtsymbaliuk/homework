@@ -1,6 +1,22 @@
+data "aws_ami" "al2" {
+ most_recent = true
+
+ filter {
+   name   = "owner-alias"
+   values = ["amazon"]
+ }
+
+ filter {
+   name   = "name"
+   values = ["amzn2-ami-hvm*"]
+ }
+}
+
+
 resource "aws_instance" "maxtsymbaliuk-ec2" {
-  ami           = "ami-05fd03138da450caf"
-  instance_type = "t3.micro"
+  ami           = data.aws_ami.al2.id
+
+  instance_type = var.instance_type
   subnet_id     = var.subnet_id
   vpc_security_group_ids = [var.security_group_id]
   associate_public_ip_address = true

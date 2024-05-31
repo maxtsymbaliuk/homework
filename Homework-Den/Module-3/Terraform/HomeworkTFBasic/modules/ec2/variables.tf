@@ -7,3 +7,9 @@ variable "security_group_id" {
   description = "The security group ID for the instance"
   type        = string
 }
+
+variable "instance_type" {
+  description = "instance type"
+  type        = string
+  default     = "t2.micro"
+}
