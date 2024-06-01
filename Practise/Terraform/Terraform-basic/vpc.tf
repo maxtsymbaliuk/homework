@@ -7,8 +7,10 @@ resource "aws_vpc" "main" {
 
 resource "aws_subnet" "public" {
 
+  count      = var.size
   vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.0.0/24"
+  cidr_block = "10.0.${count.index*2}.0/23"
+  availability_zone = local.az_list[count.index]
 
   
   tags = local.tags
@@ -33,8 +35,8 @@ resource "aws_route_table" "public" {
 }
 
 resource "aws_route_table_association" "public" {
-
-  subnet_id      = aws_subnet.public.id
+  count          = var.size
+  subnet_id      = aws_subnet.public[count.index].id
   route_table_id = aws_route_table.public.id
 }
 

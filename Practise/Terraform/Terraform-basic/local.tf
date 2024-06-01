@@ -4,4 +4,6 @@ locals {
     Name    = var.name
     Owner   = var.name
   }
+
+  az_list = ["a","b","c"]
 }

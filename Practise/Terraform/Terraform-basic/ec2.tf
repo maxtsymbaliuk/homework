@@ -17,11 +17,13 @@ resource "aws_instance" "app_server" {
 
   ami           = data.aws_ami.al2.id
 
+  count         = var.size
+
   instance_type = var.instance_type
 
   key_name      = var.key_name
 
-  subnet_id     = aws_subnet.public.id
+  subnet_id     = aws_subnet.public[count.index].id
 
   associate_public_ip_address = true
 
@@ -29,10 +31,6 @@ resource "aws_instance" "app_server" {
 
   tags = local.tags 
   
-  user_data = <<EOT
-#!/bin/bash
-yum install nano docker -y
-EOT
- 
+  user_data = file("${path.module}/scripts/script.sh") 
 }
 

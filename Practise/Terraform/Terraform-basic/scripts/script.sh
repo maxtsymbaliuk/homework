@@ -1,2 +1,4 @@
 #!/bin/bash
-sudo yum install docker -y
+yum install nano docker -y
+systemctl enable docker
+systemctl start docker
