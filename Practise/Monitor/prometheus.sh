@@ -40,6 +40,16 @@ ExecStart=/usr/local/bin/prometheus \\
 WantedBy=multi-user.target
 EOF'
 
+
+sudo bash -c 'cat <<EOF >> /etc/prometheus/prometheus.yml
+
+  - job_name: "node_exporter"
+    scrape_interval: 10s
+    static_configs:
+      - targets: ["localhost:9100"]
+EOF'
+
+
 sudo systemctl daemon-reload
 sudo systemctl enable prometheus
 sudo systemctl start prometheus

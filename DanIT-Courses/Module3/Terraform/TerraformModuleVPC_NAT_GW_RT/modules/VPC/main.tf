@@ -1,6 +1,6 @@
 # modules/VPC/main.tf
 
-resource "aws_vpc" "yourhostel_vpc" {
+resource "aws_vpc" "maxtsymbaliuk_vpc" {
   cidr_block = var.vpc_cidr
 
   tags = {
@@ -8,7 +8,7 @@ resource "aws_vpc" "yourhostel_vpc" {
   }
 }
 
-resource "aws_internet_gateway" "yourhostel_igw" {
+resource "aws_internet_gateway" "maxtsymbaliuk_igw" {
   vpc_id = aws_vpc.yourhostel_vpc.id
 
     tags = {
@@ -16,10 +16,10 @@ resource "aws_internet_gateway" "yourhostel_igw" {
   }
 }
 
-resource "aws_subnet" "yourhostel_public_subnet" {
+resource "aws_subnet" "maxtsymbaliuk_public_subnet" {
   count = length(var.public_subnets_cidrs)
 
-  vpc_id            = aws_vpc.yourhostel_vpc.id
+  vpc_id            = aws_vpc.maxtsymbaliuk_vpc.id
   cidr_block        = var.public_subnets_cidrs[count.index]
   map_public_ip_on_launch = true
   availability_zone = "${var.region}a"
@@ -29,10 +29,10 @@ resource "aws_subnet" "yourhostel_public_subnet" {
   }
 }
 
-resource "aws_subnet" "yourhostel_private_subnet" {
+resource "aws_subnet" "maxtsymbaliuk_private_subnet" {
   count = length(var.private_subnets_cidrs)
 
-  vpc_id            = aws_vpc.yourhostel_vpc.id
+  vpc_id            = aws_vpc.maxtsymbaliuk_vpc.id
   cidr_block        = var.private_subnets_cidrs[count.index]
   map_public_ip_on_launch = false
   availability_zone = "${var.region}a"
@@ -42,16 +42,16 @@ resource "aws_subnet" "yourhostel_private_subnet" {
   }
 }
 
-resource "aws_nat_gateway" "yourhostel_nat" {
-  allocation_id = aws_eip.yourhostel_eip.id
-  subnet_id     = aws_subnet.yourhostel_public_subnet[0].id
+resource "aws_nat_gateway" "maxtsymbaliuk_nat" {
+  allocation_id = aws_eip.maxtsymbaliuk_eip.id
+  subnet_id     = aws_subnet.maxtsymbaliuk_public_subnet[0].id
 
   tags = {
     Name = "${var.name}-nat"
   }
 }
 
-resource "aws_eip" "yourhostel_eip" {
+resource "aws_eip" "maxtsymbaliuk_eip" {
   domain = "vpc"
 
   tags = {
@@ -59,12 +59,12 @@ resource "aws_eip" "yourhostel_eip" {
   }
 }
 
-resource "aws_route_table" "yourhostel_public_route_table" {
-  vpc_id = aws_vpc.yourhostel_vpc.id
+resource "aws_route_table" "maxtsymbaliuk_public_route_table" {
+  vpc_id = aws_vpc.maxtsymbaliuk_vpc.id
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.yourhostel_igw.id
+    gateway_id = aws_internet_gateway.maxtsymbaliuk_igw.id
   }
 
   tags = {
@@ -72,19 +72,19 @@ resource "aws_route_table" "yourhostel_public_route_table" {
   }
 }
 
-resource "aws_route_table_association" "yourhostel_public_rt_association" {
+resource "aws_route_table_association" "maxtsymbaliuk_public_rt_association" {
   count = length(var.public_subnets_cidrs)
 
-  subnet_id      = aws_subnet.yourhostel_public_subnet[count.index].id
-  route_table_id = aws_route_table.yourhostel_public_route_table.id
+  subnet_id      = aws_subnet.maxtsymbaliuk_public_subnet[count.index].id
+  route_table_id = aws_route_table.maxtsymbaliuk_public_route_table.id
 }
 
-resource "aws_route_table" "yourhostel_private_route_table" {
-  vpc_id = aws_vpc.yourhostel_vpc.id
+resource "aws_route_table" "maxtsymbaliuk_private_route_table" {
+  vpc_id = aws_vpc.maxtsymbaliuk_vpc.id
 
   route {
     cidr_block = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.yourhostel_nat.id
+    nat_gateway_id = aws_nat_gateway.maxtsymbaliuk_nat.id
   }
 
   tags = {
@@ -92,10 +92,10 @@ resource "aws_route_table" "yourhostel_private_route_table" {
   }
 }
 
-resource "aws_route_table_association" "yourhostel_private_rt_association" {
+resource "aws_route_table_association" "maxtsymbaliuk_private_rt_association" {
   count = length(var.private_subnets_cidrs)
 
-  subnet_id      = aws_subnet.yourhostel_private_subnet[count.index].id
-  route_table_id = aws_route_table.yourhostel_private_route_table.id
+  subnet_id      = aws_subnet.maxtsymbaliuk_private_subnet[count.index].id
+  route_table_id = aws_route_table.maxtsymbaliuk_private_route_table.id
 }
 
