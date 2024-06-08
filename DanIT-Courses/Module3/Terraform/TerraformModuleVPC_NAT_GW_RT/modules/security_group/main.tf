@@ -16,7 +16,7 @@ resource "aws_security_group_rule" "maxtsymbaliuk_ingress_rules" {
   to_port                  = var.open_ports[count.index]
   protocol                 = "tcp"
   cidr_blocks              = ["0.0.0.0/0"]
-  security_group_id        = aws_security_group.maxtsybaliuk_allow_ports.id
+  security_group_id        = aws_security_group.maxtsymbaliuk_allow_ports.id
 }
 
 resource "aws_security_group_rule" "maxtsymbaliuk_egress_rules" {

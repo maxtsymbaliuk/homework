@@ -9,7 +9,7 @@ resource "aws_vpc" "maxtsymbaliuk_vpc" {
 }
 
 resource "aws_internet_gateway" "maxtsymbaliuk_igw" {
-  vpc_id = aws_vpc.yourhostel_vpc.id
+  vpc_id = aws_vpc.maxtsymbaliuk_vpc.id
 
     tags = {
     Name = "${var.name}-igw"
