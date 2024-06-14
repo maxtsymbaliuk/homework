@@ -1,5 +1,5 @@
 # modules/EC2/main.tf
-resource "aws_instance" "this" {
+resource "aws_instance" "ec2-step" {
   count         = var.ec2_count
   ami           = var.ami
   instance_type = var.instance_type
@@ -12,22 +12,6 @@ resource "aws_instance" "this" {
 
   tags = {
     Name = "ec2-instance-${count.index}"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "sudo yum update -y",
-      "sudo amazon-linux-extras install docker -y",
-      "sudo service docker start",
-      "sudo usermod -a -G docker ec2-user"
-    ]
-
-    connection {
-      type        = "ssh"
-      user        = "ec2-user"
-      private_key = var.ssh_private_key
-      host        = self.public_ip
-    }
   }
 }
 

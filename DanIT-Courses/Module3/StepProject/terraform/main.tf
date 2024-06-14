@@ -1,7 +1,3 @@
-provider "aws" {
-  region = var.aws_region
-}
-
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "5.8.1"
@@ -47,19 +43,25 @@ module "security_group" {
   }
 }
 
-module "ec2" {
-  source              = "./modules/ec2"
-  ec2_count           = var.ec2_count
-  ami                 = var.ami
-  instance_type       = var.instance_type
-  key_name            = var.key_name
-  vpc_security_group_ids = [module.security_group.security_group_id]
-  subnet_ids          = module.vpc.public_subnets
-  ssh_private_key     = file(var.ssh_private_key_path)
+resource "tls_private_key" "ssh" {
+  algorithm = "RSA"
+  count     = local.key_count
+  rsa_bits  = 4096
 }
 
-resource "aws_key_pair" "deployer" {
-  key_name   = var.key_name
-  public_key = file(var.ssh_key_path)
+resource "aws_key_pair" "ssh" {
+  key_name_prefix   = "${var.name}"
+  count             = local.key_count
+  public_key        = try(tls_private_key.ssh[0].public_key_openssh, "")
+}
+
+module "ec2" {
+  source                  = "./modules/ec2"
+  ec2_count               = var.ec2_count
+  ami                     = var.ami
+  instance_type           = var.instance_type
+  key_name                = var.key_name == "" ? try(aws_key_pair.ssh[0].key_name, "") : var.key_name
+  vpc_security_group_ids  = [module.security_group.security_group_id]
+  subnet_ids              = module.vpc.public_subnets
 }
 

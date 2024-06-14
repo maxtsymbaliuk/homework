@@ -1,5 +1,5 @@
 # modules/security_group/main.tf
-resource "aws_security_group" "this" {
+resource "aws_security_group" "maxtsymbaliuk_allow_ports" {
   vpc_id = var.vpc_id
 
   dynamic "ingress" {

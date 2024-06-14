@@ -8,11 +8,17 @@ variable "vpc_cidr" {
 variable "key_name" {
   description = "Name of the SSH key pair"
   type        = string
+  default     = ""
 }
 
 variable "owner" {
   description = "Owner of the infrastructure"
   type        = string
+}
+variable "name" {
+  description = "Owner of the infrastructure"
+  type        = string
+  default     = "max"
 }
 
 variable "created_by" {
