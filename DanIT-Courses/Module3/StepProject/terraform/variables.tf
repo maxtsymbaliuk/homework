@@ -61,15 +61,15 @@ variable "single_nat_gateway" {
   description = "Single NAT gateway"
 }
 
-#variable "ansible_user" {
-#  type        = string
-#  description = "Ansible SSH user"
-#}
+variable "ansible_user" {
+  type        = string
+  description = "Ansible SSH user"
+}
 
-#variable "ansible_port" {
-#  type        = number
-#  description = "Ansible SSH port"
-#}
+variable "ansible_port" {
+  type        = number
+  description = "Ansible SSH port"
+}
 
 #variable "prometheus_port" {
 #  type        = number
@@ -91,7 +91,7 @@ variable "single_nat_gateway" {
 #  description = "cAdvisor port"
 #}
 
-#variable "private_key" {
-#  type        = string
-#  description = "Path to the private SSH key"
-#}
+variable "private_key" {
+  type        = string
+  description = "Path to the private SSH key"
+}

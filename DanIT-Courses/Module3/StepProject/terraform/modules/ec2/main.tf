@@ -1,5 +1,6 @@
 # Step_Project_3/terraform/modules/ec2/main.tf
 
+
 resource "aws_instance" "this" {
   count = var.instance_count
 
@@ -20,9 +21,10 @@ resource "aws_instance" "this" {
   provisioner "remote-exec" {
     inline = [
       "sudo yum update -y",
-      "sudo amazon-linux-extras install docker -y",
-      "sudo systemctl start docker",
-      "sudo systemctl enable docker"
+      "sudo yum install docker -y",
+      "sudo service docker start",
+      "sudo systemctl enable docker",
+      "sudo usermod -aG docker ec2-user",
     ]
   
     connection {

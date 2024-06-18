@@ -12,5 +12,5 @@ enable_nat_gateway      = true
 single_nat_gateway       = true
 ansible_user           = "ec2-user"
 ansible_port           = 22
-private_key             = "/home/vagrant/.ssh/MyKey"
+private_key             = "/home/vagrant/.ssh/MyKey.pem"
 
