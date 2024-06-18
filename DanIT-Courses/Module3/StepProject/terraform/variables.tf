@@ -1,66 +1,97 @@
-# variables.tf
+# Step_Project_3/terraform/variables.tf
 
-variable "vpc_cidr" {
-  description = "CIDR block for the VPC"
-  type        = string
-}
-
-variable "key_name" {
-  description = "Name of the SSH key pair"
-  type        = string
-  default     = ""
-}
-
-variable "owner" {
-  description = "Owner of the infrastructure"
-  type        = string
-}
 variable "name" {
-  description = "Owner of the infrastructure"
   type        = string
-  default     = "max"
-}
-
-variable "created_by" {
-  description = "Creator of the infrastructure"
-  type        = string
-}
-
-variable "purpose" {
-  description = "Purpose of the infrastructure"
-  type        = string
+  description = "Name prefix for all resources"
 }
 
 variable "aws_region" {
-  description = "The AWS region to deploy resources in"
   type        = string
-  default     = "us-east-1"
+  description = "AWS region"
 }
 
-variable "ssh_key_path" {
-  description = "Path to your public SSH key"
-  type        = string
-}
-
-variable "ssh_private_key_path" {
-  description = "Path to your private SSH key"
-  type        = string
-}
-
-variable "ec2_count" {
-  description = "Number of EC2 instances to create"
+variable "instance_count" {
   type        = number
-  default     = 3
+  description = "Number of EC2 instances to create"
 }
 
-variable "ami" {
-  description = "AMI ID for the EC2 instances"
+variable "ami_id" {
   type        = string
-  default     = "ami-08a0d1e16fc3f61ea"  # Update this to a valid AMI ID for your region
+  description = "AMI ID for EC2 instances"
 }
 
 variable "instance_type" {
-  description = "Instance type for the EC2 instances"
   type        = string
-  default     = "t2.micro"
+  description = "Instance type for EC2 instances"
 }
+
+variable "key_name" {
+  type        = string
+  description = "Key pair name"
+}
+
+variable "vpc_cidr" {
+  type        = string
+  description = "CIDR block for the VPC"
+}
+
+variable "vpc_azs" {
+  type        = list(string)
+  description = "List of availability zones"
+  default     = []
+}
+
+variable "vpc_private_subnets" {
+  type        = list(string)
+  description = "List of private subnets CIDR blocks"
+}
+
+variable "vpc_public_subnets" {
+  type        = list(string)
+  description = "List of public subnets CIDR blocks"
+}
+
+variable "enable_nat_gateway" {
+  type        = bool
+  description = "Enable NAT gateway"
+}
+
+variable "single_nat_gateway" {
+  type        = bool
+  description = "Single NAT gateway"
+}
+
+#variable "ansible_user" {
+#  type        = string
+#  description = "Ansible SSH user"
+#}
+
+#variable "ansible_port" {
+#  type        = number
+#  description = "Ansible SSH port"
+#}
+
+#variable "prometheus_port" {
+#  type        = number
+#  description = "Prometheus port"
+#}
+
+#variable "grafana_port" {
+#  type        = number
+#  description = "Grafana port"
+#}
+
+#variable "node_exporter_port" {
+#  type        = number
+#  description = "Node Exporter port"
+#}
+
+#variable "cadvisor_port" {
+#  type        = number
+#  description = "cAdvisor port"
+#}
+
+#variable "private_key" {
+#  type        = string
+#  description = "Path to the private SSH key"
+#}

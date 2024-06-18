@@ -1,36 +1,41 @@
-# modules/EC2/variables.tf
-variable "ec2_count" {
-  description = "Number of EC2 instances to create"
-  type        = number
+# Step_Project_3/terraform/ec2/variables.tf
+
+variable "name" {
+  type = string
 }
 
-variable "ami" {
-  description = "AMI ID for the EC2 instances"
-  type        = string
+variable "instance_count" {
+  type = number
+}
+
+variable "ami_id" {
+  type = string
 }
 
 variable "instance_type" {
-  description = "Instance type for the EC2 instances"
-  type        = string
+  type = string
 }
 
 variable "key_name" {
-  description = "Key name for the EC2 instances"
-  type        = string
+  type = string
 }
 
 variable "vpc_security_group_ids" {
-  description = "VPC security group IDs for the EC2 instances"
-  type        = list(string)
+  type    = list(string)
 }
 
 variable "subnet_ids" {
-  description = "Subnet IDs for the EC2 instances"
-  type        = list(string)
+  type = list(string)
 }
 
-variable "ssh_private_key" {
-  description = "Private SSH key to connect to EC2 instances"
-  type        = string
+variable "ansible_user" {
+  type = string
 }
 
+variable "ansible_port" {
+  type = number
+}
+
+variable "private_key" {
+  type = string
+}
