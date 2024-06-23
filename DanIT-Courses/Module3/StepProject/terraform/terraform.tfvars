@@ -13,4 +13,7 @@ single_nat_gateway       = true
 ansible_user           = "ec2-user"
 ansible_port           = 22
 private_key             = "/home/vagrant/.ssh/MyKey.pem"
-
+prometheus_port        = 9090
+grafana_port           = 3000
+node_exporter_port     = 9100
+cadvisor_port          = 8080

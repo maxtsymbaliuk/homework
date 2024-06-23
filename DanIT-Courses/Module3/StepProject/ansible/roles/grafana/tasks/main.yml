@@ -1,0 +1,14 @@
+# ansible/roles/grafana/tasks/main.yml
+---
+- import_role:
+    name: common
+
+- name: Run Grafana container
+  docker_container:
+    name: grafana
+    image: grafana/grafana:latest
+    ports:
+      - "{{ grafana_port }}:{{ grafana_port }}"
+    env:
+      GF_SECURITY_ADMIN_USER: "admin"
+      GF_SECURITY_ADMIN_PASSWORD: "admin"

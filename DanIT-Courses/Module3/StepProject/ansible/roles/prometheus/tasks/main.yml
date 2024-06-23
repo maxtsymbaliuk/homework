@@ -1,0 +1,20 @@
+# ansible/roles/prometheus/tasks/main.yml
+
+---
+- import_role:
+    name: common
+
+- name: Run Prometheus container
+  docker_container:
+    name: prometheus
+    image: prom/prometheus
+    ports:
+      - "{{ prometheus_port }}:{{ prometheus_port }}"
+    volumes:
+      - /etc/prometheus:/etc/prometheus
+    command: "--config.file=/etc/prometheus/prometheus.yml"
+
+- name: Copy Prometheus configuration file
+  template:
+    src: prometheus.json.j2
+    dest: /etc/prometheus/prometheus.yml

@@ -1,0 +1,16 @@
+# ansible/roles/c_advisor/tasks/main.yml
+---
+- import_role:
+    name: common
+
+- name: Run cAdvisor container
+  docker_container:
+    name: cadvisor
+    image: google/cadvisor:latest
+    ports:
+      - "{{ cadvisor_port }}:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro

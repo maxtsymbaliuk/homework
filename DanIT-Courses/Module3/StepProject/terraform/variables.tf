@@ -71,25 +71,25 @@ variable "ansible_port" {
   description = "Ansible SSH port"
 }
 
-#variable "prometheus_port" {
-#  type        = number
-#  description = "Prometheus port"
-#}
+variable "prometheus_port" {
+  type        = number
+  description = "Prometheus port"
+}
 
-#variable "grafana_port" {
-#  type        = number
-#  description = "Grafana port"
-#}
+variable "grafana_port" {
+  type        = number
+  description = "Grafana port"
+}
 
-#variable "node_exporter_port" {
-#  type        = number
-#  description = "Node Exporter port"
-#}
+variable "node_exporter_port" {
+  type        = number
+  description = "Node Exporter port"
+}
 
-#variable "cadvisor_port" {
-#  type        = number
-#  description = "cAdvisor port"
-#}
+variable "cadvisor_port" {
+  type        = number
+  description = "cAdvisor port"
+}
 
 variable "private_key" {
   type        = string
