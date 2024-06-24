@@ -11,9 +11,8 @@ resource "aws_instance" "this" {
   associate_public_ip_address = true
 
   tags = {
-    Name      = "${var.name}-step-project-3-${count.index + 1}"
     Owner     = var.name
-    CreatedBy = "${var.name}-automation"
+    CreatedBy = "${var.name}-devops"
     Purpose   = "step3"
   }
 
