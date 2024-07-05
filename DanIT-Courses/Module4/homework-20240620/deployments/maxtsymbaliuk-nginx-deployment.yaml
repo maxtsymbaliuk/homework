@@ -1,0 +1,34 @@
+# homework-20240620/deployments/yourhostel-nginx-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maxtsymbaliuk-nginx-deployment
+  namespace: maxtsymbaliuk-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: maxtsymbaliuk-nginx
+  template:
+    metadata:
+      labels:
+        app: maxtsymbaliuk-nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: maxtsymbaliuk-volume
+          mountPath: /mystatic
+      volumes:
+      - name: maxtsymbaliuk-volume
+        persistentVolumeClaim:
+          claimName: maxtsymbaliuk-pvc
+      volumes:
+      - name: maxtsymbaliuk-volume
+        configMap:
+          name: nginx-config

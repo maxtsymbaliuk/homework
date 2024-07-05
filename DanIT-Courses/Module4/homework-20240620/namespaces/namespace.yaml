@@ -1,0 +1,6 @@
+# homework-20240620/namespaces/namespace.yaml
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: maxtsymbaliuk-namespace
