@@ -1,0 +1,35 @@
+# homework-20240623/ingress/maxtsymbaliuk-python-ingress.yaml
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: maxtsymbaliuk-python-ingress
+  namespace: maxtsymbaliuk-namespace
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: maxtsymbaliuk-python-service
+            port:
+              number: 80
+      - path: /readiness
+        pathType: Prefix
+        backend:
+          service:
+            name: maxtsymbaliuk-python-service
+            port:
+              number: 80
+      - path: /liveness
+        pathType: Prefix
+        backend:
+          service:
+            name: maxtsymbaliuk-python-service
+            port:
+              number: 80
+
+
