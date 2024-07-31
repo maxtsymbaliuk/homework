@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: python-backend-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: python-backend.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: python-backend-service
+            port:
+              number: 80

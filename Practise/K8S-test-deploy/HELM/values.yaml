@@ -1,0 +1,21 @@
+replicaCount: 1
+
+image:
+  repository: maxtsymbaliuk/python-backend
+  pullPolicy: IfNotPresent
+  tag: latest
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: python-backend.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
