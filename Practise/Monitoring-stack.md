@@ -8,6 +8,24 @@ The begging of my monitoring stack task
 
 
 
+sudo nano /etc/ntp.conf
+server ntp.mil.gov.ua iburst
+
+# Check NTP
+```
+user@plgbl-01:/etc$ ntpq -p
+     remote           refid      st t when poll reach   delay   offset  jitter
+==============================================================================
+ 0.ubuntu.pool.n .POOL.          16 p    -   64    0    0.000   +0.000   0.000
+ 1.ubuntu.pool.n .POOL.          16 p    -   64    0    0.000   +0.000   0.000
+ 2.ubuntu.pool.n .POOL.          16 p    -   64    0    0.000   +0.000   0.000
+ 3.ubuntu.pool.n .POOL.          16 p    -   64    0    0.000   +0.000   0.000
+ ntp.mil.gov.ua  .POOL.          16 p    -   64    0    0.000   +0.000   0.000
++10.222.0.123    31.28.161.71     2 u    3   64    1    0.520   -0.347   1.315
+*ntp0.campus-rv. .PPS.            1 u    3   64    1    7.378   -1.240   1.846
+ fido.odessa.ua  31.28.161.68     2 u    1   64    1   11.595   -0.190   1.052
+```
+
 [ ] 3)на VM2 підняти web server (nginx, apache) , iptables, logrotate, timesync з ntp.mil.gov.ua
 
 
