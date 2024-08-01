@@ -1,11 +1,10 @@
-The begging of my monitoring stack task 
+### The begging of my monitoring stack task 
 
-[ ] 1)Отримати у віртуалізаторів 2 віртуальні машини Ubuntu, мережевий адаптер (stage). Заповнити документацію по IP-адресам в таблицю.
+# [ ] 1)Отримати у віртуалізаторів 2 віртуальні машини Ubuntu, мережевий адаптер (stage). Заповнити документацію по IP-адресам в таблицю.
 
 .35 and .36 VM`s
 
-[ ] 2)на VM1 налаштувати prometheus, loki, grafana, blackbox_exporter, iptables, logrotate, timesync з ntp.mil.gov.ua
-
+# [ ] 2)на VM1 налаштувати prometheus, loki, grafana, blackbox_exporter, iptables, logrotate, timesync з ntp.mil.gov.ua
 
 
 sudo nano /etc/ntp.conf
